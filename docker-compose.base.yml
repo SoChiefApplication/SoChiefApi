@@ -3,6 +3,7 @@ networks:
 
 volumes:
   db_data:
+  minio-data:
 
 services:
   sochief-db:
@@ -29,6 +30,8 @@ services:
     depends_on:
       sochief-db:
         condition: service_healthy
+      minio:
+        condition: service_started
     environment:
       SERVER_PORT: 8080
 
@@ -37,8 +40,24 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET: ${MINIO_BUCKET}
     ports:
       - "${APP_PUBLIC_API_EXPOSED_PORT}:8080"
     restart: unless-stopped
+    networks:
+      - sochief_net
+
+  minio:
+    image: minio/minio:latest
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:?MINIO_ROOT_USER is required}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?MINIO_ROOT_PASSWORD is required}
+    volumes:
+      - minio-data:/data
     networks:
       - sochief_net

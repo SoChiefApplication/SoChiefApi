@@ -3,6 +3,13 @@ FROM maven:3.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
 
+COPY certs/ca.crt /tmp/ca.crt
+RUN keytool -importcert -noprompt -trustcacerts \
+    -alias internal-ca \
+    -file /tmp/ca.crt \
+    -keystore "$JAVA_HOME/lib/security/cacerts" \
+    -storepass changeit
+
 COPY pom.xml .
 RUN mvn -q -B dependency:go-offline
 

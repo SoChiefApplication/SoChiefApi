@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -30,14 +30,26 @@
         <java.version>21</java.version>
         <kotlin.version>2.3.10</kotlin.version>
         <assertj.version>3.27.7</assertj.version>
-        <contracts.version>0.1.1</contracts.version>
+        <contracts.version>0.1.2</contracts.version>
+        <minio.version>8.6.0</minio.version>
     </properties>
     <repositories>
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/Le-Gall-Valentin/sochief-client</url>
+            <id>gitea</id>
+            <url>https://git.lan/api/packages/leva/maven</url>
         </repository>
     </repositories>
+    <distributionManagement>
+        <repository>
+            <id>gitea</id>
+            <url>https://git.lan/api/packages/leva/maven</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>gitea</id>
+            <url>https://git.lan/api/packages/leva/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -81,11 +93,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa-test</artifactId>
             <scope>test</scope>
@@ -118,6 +125,12 @@
             <version>3.0.0</version>
         </dependency>
         <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.vlegall</groupId>
             <artifactId>contracts-desktop</artifactId>
             <version>${contracts.version}</version>
@@ -131,14 +144,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>

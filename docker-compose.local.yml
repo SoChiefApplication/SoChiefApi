@@ -6,3 +6,9 @@ services:
   sochief-api:
     environment:
       SPRING_PROFILES_ACTIVE: local
+
+  minio:
+    ports:
+      - ${MINIO_PORT}:9000   # API
+      - ${MINIO_INTERFACE_PORT}:9001   # Console
+    command: server /data --console-address ":9001"
