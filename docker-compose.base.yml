@@ -5,6 +5,10 @@ volumes:
   db_data:
   minio-data:
 
+secrets:
+  maven_settings:
+    file: ./maven.settings.xml
+
 services:
   sochief-db:
     image: postgres:16
@@ -27,6 +31,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      secrets:
+        - maven_settings
     depends_on:
       sochief-db:
         condition: service_healthy
@@ -45,6 +51,8 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
       MINIO_BUCKET: ${MINIO_BUCKET}
+
+      API_KEYS: ${API_KEYS:?API_KEYS is required}
     ports:
       - "${APP_PUBLIC_API_EXPOSED_PORT}:8080"
     restart: unless-stopped

@@ -31,7 +31,7 @@ rebuild-local:
 nuke-local:
 	@echo "💣 NUKE LOCAL : reset complet + rebuild"
 	$(DOCKER_COMPOSE) $(LOCAL) down -v --remove-orphans
-	$(DOCKER_COMPOSE) $(LOCAL) build --no-cache
+	docker buildx build --secret id=maven_settings,src=maven.settings.xml -t sochief-api:local .
 	$(DOCKER_COMPOSE) $(LOCAL) up -d
 	@echo "🚀 LOCAL recréé proprement."
 
