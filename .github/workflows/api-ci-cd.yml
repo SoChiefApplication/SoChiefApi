@@ -122,8 +122,6 @@ jobs:
             </servers>
           </settings>
           EOF
-        env:
-          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
 
       - name: Build & Push Docker image
         if: steps.tagcheck.outputs.exists == 'false'
@@ -132,8 +130,9 @@ jobs:
           context: .
           file: Dockerfile
           push: true
+          # ✅ FORMAT CORRECT POUR buildx (sinon Maven lit un fichier invalide)
           secrets: |
-            maven_settings=maven.settings.xml
+            id=maven_settings,src=maven.settings.xml
           tags: |
             ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:${{ steps.ver.outputs.version }}
             ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:latest
