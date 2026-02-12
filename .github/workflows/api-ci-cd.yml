@@ -27,9 +27,9 @@ jobs:
           cache: maven
           server-id: github
           server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
+          server-password: GH_PACKAGES_READ_TOKEN
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PACKAGES_READ_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
 
       - name: Build + test + package
         run: mvn -B clean verify
