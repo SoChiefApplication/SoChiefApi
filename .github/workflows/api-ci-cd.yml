@@ -26,10 +26,11 @@ jobs:
           java-version: "21"
           cache: maven
           server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GH_PACKAGES_READ_TOKEN
+          server-username: GH_PACKAGES_USERNAME
+          server-password: GH_PACKAGES_TOKEN
         env:
-          GH_PACKAGES_READ_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
+          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Build + test + package
         run: mvn -B clean verify
