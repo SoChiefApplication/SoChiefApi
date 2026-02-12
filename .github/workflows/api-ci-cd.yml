@@ -13,10 +13,6 @@ jobs:
   build_release_docker:
     runs-on: ubuntu-latest
 
-    env:
-      GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
-      GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,6 +28,9 @@ jobs:
           server-id: github
           server-username: GH_PACKAGES_USERNAME
           server-password: GH_PACKAGES_TOKEN
+        env:
+          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Build + test + package
         run: mvn -B clean verify
@@ -105,9 +104,12 @@ jobs:
           OWNER_LC="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
           echo "owner_lc=$OWNER_LC" >> "$GITHUB_OUTPUT"
 
-      - name: Create maven.settings.xml for Docker (filled)
+      - name: Create Maven settings.xml for Docker (BuildKit secret file)
         if: steps.tagcheck.outputs.exists == 'false'
         shell: bash
+        env:
+          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
         run: |
           cat > maven.settings.xml <<EOF
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
@@ -122,9 +124,6 @@ jobs:
             </servers>
           </settings>
           EOF
-        env:
-          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
-          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Build & Push Docker image
         if: steps.tagcheck.outputs.exists == 'false'
@@ -133,8 +132,8 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          secrets: |
-            id=maven_settings,src=maven.settings.xml
+          secret-files: |
+            "maven_settings=./maven.settings.xml"
           tags: |
             ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:${{ steps.ver.outputs.version }}
             ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:latest
