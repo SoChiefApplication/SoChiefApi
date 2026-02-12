@@ -105,23 +105,26 @@ jobs:
           OWNER_LC="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
           echo "owner_lc=$OWNER_LC" >> "$GITHUB_OUTPUT"
 
-      - name: Create maven.settings.xml for Docker (BuildKit secret)
+      - name: Create maven.settings.xml for Docker (filled)
         if: steps.tagcheck.outputs.exists == 'false'
         shell: bash
         run: |
-          cat > maven.settings.xml <<'EOF'
+          cat > maven.settings.xml <<EOF
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
             <servers>
               <server>
                 <id>github</id>
-                <username>${env.GH_PACKAGES_USERNAME}</username>
-                <password>${env.GH_PACKAGES_TOKEN}</password>
+                <username>${GH_PACKAGES_USERNAME}</username>
+                <password>${GH_PACKAGES_TOKEN}</password>
               </server>
             </servers>
           </settings>
           EOF
+        env:
+          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
+          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Build & Push Docker image
         if: steps.tagcheck.outputs.exists == 'false'
@@ -130,7 +133,6 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          # ✅ FORMAT CORRECT POUR buildx (sinon Maven lit un fichier invalide)
           secrets: |
             id=maven_settings,src=maven.settings.xml
           tags: |
