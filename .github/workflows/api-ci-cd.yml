@@ -97,6 +97,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Compute GHCR owner (lowercase)
+        if: steps.tagcheck.outputs.exists == 'false'
+        id: img
+        shell: bash
+        run: |
+          OWNER_LC="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
+          echo "owner_lc=$OWNER_LC" >> "$GITHUB_OUTPUT"
+
       - name: Build & Push Docker image
         if: steps.tagcheck.outputs.exists == 'false'
         uses: docker/build-push-action@v6
@@ -105,5 +113,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/sochief-api:${{ steps.ver.outputs.version }}
-            ghcr.io/${{ github.repository_owner }}/sochief-api:latest
+            ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:${{ steps.ver.outputs.version }}
+            ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:latest
