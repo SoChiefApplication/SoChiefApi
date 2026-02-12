@@ -13,6 +13,10 @@ jobs:
   build_release_docker:
     runs-on: ubuntu-latest
 
+    env:
+      GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
+      GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,9 +32,6 @@ jobs:
           server-id: github
           server-username: GH_PACKAGES_USERNAME
           server-password: GH_PACKAGES_TOKEN
-        env:
-          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
-          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
       - name: Build + test + package
         run: mvn -B clean verify
@@ -104,20 +105,18 @@ jobs:
           OWNER_LC="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
           echo "owner_lc=$OWNER_LC" >> "$GITHUB_OUTPUT"
 
-      - name: Create Maven settings.xml for Docker (BuildKit secret file)
+      - name: Create maven.settings.xml for Docker (filled)
         if: steps.tagcheck.outputs.exists == 'false'
         shell: bash
-        env:
-          GH_PACKAGES_USERNAME: ${{ secrets.GH_PACKAGES_USERNAME }}
-          GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
         run: |
           cat > maven.settings.xml <<EOF
-          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+          <settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+              xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                                  https://maven.apache.org/xsd/settings-1.0.0.xsd">
             <servers>
               <server>
-                <id>github</id>
+              <id>github</id>
                 <username>${GH_PACKAGES_USERNAME}</username>
                 <password>${GH_PACKAGES_TOKEN}</password>
               </server>
@@ -132,8 +131,8 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          secret-files: |
-            "maven_settings=./maven.settings.xml"
+          secrets: |
+            id=maven_settings,src=maven.settings.xml
           tags: |
             ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:${{ steps.ver.outputs.version }}
             ghcr.io/${{ steps.img.outputs.owner_lc }}/sochief-api:latest
