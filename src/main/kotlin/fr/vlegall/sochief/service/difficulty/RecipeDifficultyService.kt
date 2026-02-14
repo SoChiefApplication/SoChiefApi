@@ -1,0 +1,16 @@
+﻿package fr.vlegall.sochief.service.difficulty
+
+import fr.vlegall.sochief.repository.RecipeDifficultyRepository
+import fr.vlegall.sochief.contracts.common.NamedIdDto
+import org.springframework.stereotype.Service
+
+@Service
+class RecipeDifficultyService(
+    private val difficultyRepository: RecipeDifficultyRepository,
+    private val recipeDifficultyMapper: RecipeDifficultyMapper
+) : IRecipeDifficultyService {
+    override fun getRecipeDifficulties(): List<NamedIdDto> {
+        return difficultyRepository.findAllByOrderByIdAsc().map(recipeDifficultyMapper::toDto)
+    }
+
+}

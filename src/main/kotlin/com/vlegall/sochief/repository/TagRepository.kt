@@ -1,8 +1,0 @@
-﻿package com.vlegall.sochief.repository
-
-import com.vlegall.sochief.model.recipe.Tag
-import org.springframework.data.jpa.repository.JpaRepository
-
-interface TagRepository : JpaRepository<Tag, Long> {
-    fun findByNameIgnoreCase(name: String): Tag?
-}

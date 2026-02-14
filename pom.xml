@@ -8,9 +8,9 @@
         <version>4.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.vlegall</groupId>
+    <groupId>fr.vlegall</groupId>
     <artifactId>SoChief</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <name>SoChief</name>
     <description>SoChief</description>
     <url/>
