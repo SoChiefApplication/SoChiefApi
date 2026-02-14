@@ -1,7 +1,7 @@
 ﻿package com.vlegall.sochief.service.recipe
 
 import com.vlegall.sochief.model.recipe.*
-import com.vlegall.sochiefcontracts.dto.request.RecipeUpsertRequestDto
+import fr.vlegall.sochief.contracts.request.RecipeUpsertRequestDto
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.time.Duration

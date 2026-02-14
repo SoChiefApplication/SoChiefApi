@@ -1,6 +1,7 @@
 ﻿package com.vlegall.sochief.service.category
 
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
+
 
 interface IRecipeCategoryService {
     fun getRecipeCategories(): List<NamedIdDto>

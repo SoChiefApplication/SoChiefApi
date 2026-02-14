@@ -30,20 +30,9 @@
         <java.version>21</java.version>
         <kotlin.version>2.3.10</kotlin.version>
         <assertj.version>3.27.7</assertj.version>
-        <contracts.version>0.2.4</contracts.version>
+        <contracts.version>0.2.5</contracts.version>
         <minio.version>8.6.0</minio.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/sochiefapplication/sochiefcontracts</url>
-        </repository>
-
-        <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -151,7 +140,7 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.vlegall</groupId>
+            <groupId>fr.vlegall</groupId>
             <artifactId>contracts-desktop</artifactId>
             <version>${contracts.version}</version>
         </dependency>

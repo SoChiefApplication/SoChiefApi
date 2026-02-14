@@ -5,10 +5,6 @@ volumes:
   db_data:
   minio-data:
 
-secrets:
-  maven_settings:
-    file: ./maven.settings.xml
-
 services:
   sochief-db:
     image: postgres:16
@@ -31,8 +27,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      secrets:
-        - maven_settings
     depends_on:
       sochief-db:
         condition: service_healthy

@@ -3,7 +3,7 @@
 import com.vlegall.sochief.exception.NotFoundException
 import com.vlegall.sochief.model.recipe.*
 import com.vlegall.sochief.repository.*
-import com.vlegall.sochiefcontracts.dto.common.IdOrNameDto
+import fr.vlegall.sochief.contracts.common.IdOrNameDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

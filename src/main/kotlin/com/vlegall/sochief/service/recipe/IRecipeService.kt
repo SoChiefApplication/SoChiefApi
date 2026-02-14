@@ -1,8 +1,8 @@
 ﻿package com.vlegall.sochief.service.recipe
 
-import com.vlegall.sochiefcontracts.dto.request.RecipeUpsertRequestDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeDetailDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeListItemDto
+import fr.vlegall.sochief.contracts.request.RecipeUpsertRequestDto
+import fr.vlegall.sochief.contracts.response.RecipeDetailDto
+import fr.vlegall.sochief.contracts.response.RecipeListItemDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 

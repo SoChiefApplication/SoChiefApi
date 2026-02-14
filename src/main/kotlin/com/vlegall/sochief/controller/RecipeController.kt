@@ -1,9 +1,9 @@
 package com.vlegall.sochief.controller
 
 import com.vlegall.sochief.service.recipe.IRecipeService
-import com.vlegall.sochiefcontracts.dto.request.RecipeUpsertRequestDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeDetailDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeListItemDto
+import fr.vlegall.sochief.contracts.request.RecipeUpsertRequestDto
+import fr.vlegall.sochief.contracts.response.RecipeDetailDto
+import fr.vlegall.sochief.contracts.response.RecipeListItemDto
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Positive

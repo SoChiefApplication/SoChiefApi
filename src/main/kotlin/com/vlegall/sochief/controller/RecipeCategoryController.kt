@@ -1,7 +1,7 @@
 package com.vlegall.sochief.controller
 
 import com.vlegall.sochief.service.category.RecipeCategoryService
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated

@@ -5,11 +5,11 @@ import com.vlegall.sochief.model.recipe.RecipeCategory
 import com.vlegall.sochief.model.recipe.RecipeDifficulty
 import com.vlegall.sochief.service.category.RecipeCategoryMapper
 import com.vlegall.sochief.service.difficulty.RecipeDifficultyMapper
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeDetailDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeIngredientDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeListItemDto
-import com.vlegall.sochiefcontracts.dto.response.RecipeStepDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
+import fr.vlegall.sochief.contracts.response.RecipeDetailDto
+import fr.vlegall.sochief.contracts.response.RecipeIngredientDto
+import fr.vlegall.sochief.contracts.response.RecipeListItemDto
+import fr.vlegall.sochief.contracts.response.RecipeStepDto
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.math.RoundingMode

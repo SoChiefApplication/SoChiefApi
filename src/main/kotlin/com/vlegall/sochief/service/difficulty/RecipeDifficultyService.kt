@@ -1,7 +1,7 @@
 ﻿package com.vlegall.sochief.service.difficulty
 
 import com.vlegall.sochief.repository.RecipeDifficultyRepository
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
 import org.springframework.stereotype.Service
 
 @Service

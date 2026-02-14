@@ -1,6 +1,6 @@
 ﻿package com.vlegall.sochief.service.difficulty
 
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
 
 interface IRecipeDifficultyService {
     fun getRecipeDifficulties(): List<NamedIdDto>

@@ -1,7 +1,7 @@
 ﻿package com.vlegall.sochief.service.category
 
 import com.vlegall.sochief.model.recipe.RecipeCategory
-import com.vlegall.sochiefcontracts.dto.common.NamedIdDto
+import fr.vlegall.sochief.contracts.common.NamedIdDto
 import org.springframework.stereotype.Component
 
 @Component
