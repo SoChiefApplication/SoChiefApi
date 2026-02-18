@@ -16,16 +16,14 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
 
-springdoc:
-  swagger-ui:
+  flyway:
     enabled: true
-    withCredentials: true
-    csrf:
-      enabled: true
-      cookie-name: XSRF-TOKEN
-      header-name: X-XSRF-TOKEN
-  api-docs:
-    enabled: true
+    locations: classpath:db/migration
+    clean-disabled: false
+
+server:
+  port: ${SERVER_PORT}
+  forward-headers-strategy: framework
 
 security:
   api:
@@ -45,17 +43,62 @@ spring:
     activate:
       on-profile: local
 
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    clean-disabled: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
 
-server:
-  port: ${SERVER_PORT}
-  forward-headers-strategy: framework
+springdoc:
+  swagger-ui:
+    enabled: true
+    withCredentials: true
+    csrf:
+      enabled: true
+      cookie-name: XSRF-TOKEN
+      header-name: X-XSRF-TOKEN
+  api-docs:
+    enabled: true
+
+# ========= PREPROD =========
+---
+
+spring:
+  config:
+    activate:
+      on-profile: preprod
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    withCredentials: true
+    csrf:
+      enabled: true
+      cookie-name: XSRF-TOKEN
+      header-name: X-XSRF-TOKEN
+  api-docs:
+    enabled: true
+
+# ========= PROD =========
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+    enabled: false
