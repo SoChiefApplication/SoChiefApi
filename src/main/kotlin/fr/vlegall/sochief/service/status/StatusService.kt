@@ -17,6 +17,6 @@ class StatusService(
         val version = build?.version ?: "dev"
         val name = build?.name ?: environment.getProperty("spring.application.name") ?: "unknown"
 
-        return ApiStatus(name, profile, version)
+        return ApiStatus(name, profile, version, true)
     }
 }
