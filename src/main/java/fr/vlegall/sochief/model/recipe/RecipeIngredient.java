@@ -1,0 +1,46 @@
+package fr.vlegall.sochief.model.recipe;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.vlegall.sochief.model.common.AuditableEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(
+        name = "RECIPE_INGREDIENT",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"recipe_id", "ingredient_id"})}
+)
+public class RecipeIngredient extends AuditableEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "recipe_id", nullable = false)
+    @JsonIgnore
+    private Recipe recipe;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ingredient_id", nullable = false)
+    private Ingredient ingredient;
+
+    @NotNull
+    @Positive
+    @Column(nullable = false)
+    private Long quantity;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "unit_id", nullable = false)
+    private IngredientUnit unit;
+}
+
