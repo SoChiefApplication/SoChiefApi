@@ -87,6 +87,9 @@ public class Recipe extends AuditableEntity {
     )
     private Set<RecipeTag> tags = new HashSet<>();
 
+    @Column(name = "minio_object_key_img")
+    private String minioObjectKeyImg;
+
     public void addTag(Tag tag) {
         boolean exists = tags.stream().anyMatch(t -> t.getTag() != null && t.getTag().getId().equals(tag.getId()));
         if (exists) return;

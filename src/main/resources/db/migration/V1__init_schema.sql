@@ -57,16 +57,17 @@ CREATE TABLE utensil
 
 CREATE TABLE recipe
 (
-    id               BIGSERIAL PRIMARY KEY,
-    title            TEXT        NOT NULL,
-    description      TEXT,
-    category_id      BIGINT      NOT NULL,
-    difficulty_id    BIGINT      NOT NULL,
-    initial_portions INTEGER     NOT NULL,
-    preparation_time BIGINT      NOT NULL,
-    cooking_time     BIGINT      NOT NULL,
-    created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at       TIMESTAMPTZ,
+    id                   BIGSERIAL PRIMARY KEY,
+    title                TEXT        NOT NULL,
+    description          TEXT,
+    category_id          BIGINT      NOT NULL,
+    difficulty_id        BIGINT      NOT NULL,
+    initial_portions     INTEGER     NOT NULL,
+    preparation_time     BIGINT      NOT NULL,
+    cooking_time         BIGINT      NOT NULL,
+    created_at           TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at           TIMESTAMPTZ,
+    minio_object_key_img TEXT,
 
     CONSTRAINT fk_recipe_category
         FOREIGN KEY (category_id) REFERENCES recipe_category (id),

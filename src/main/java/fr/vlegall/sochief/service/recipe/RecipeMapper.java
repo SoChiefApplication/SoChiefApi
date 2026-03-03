@@ -1,10 +1,7 @@
 package fr.vlegall.sochief.service.recipe;
 
 import fr.vlegall.sochief.contracts.common.NamedIdDto;
-import fr.vlegall.sochief.contracts.response.RecipeDetailDto;
-import fr.vlegall.sochief.contracts.response.RecipeIngredientDto;
-import fr.vlegall.sochief.contracts.response.RecipeListItemDto;
-import fr.vlegall.sochief.contracts.response.RecipeStepDto;
+import fr.vlegall.sochief.contracts.response.*;
 import fr.vlegall.sochief.model.recipe.Recipe;
 import fr.vlegall.sochief.model.recipe.RecipeCategory;
 import fr.vlegall.sochief.model.recipe.RecipeDifficulty;
@@ -36,11 +33,12 @@ public class RecipeMapper {
                 recipeDifficultyMapper.toDto(r.getDifficulty() != null ? r.getDifficulty() : new RecipeDifficulty()),
                 r.getInitialPortions(),
                 r.getPreparationTime().toString(),
-                r.getCookingTime().toString()
+                r.getCookingTime().toString(),
+                null
         );
     }
 
-    public RecipeDetailDto toDetailDto(Recipe r, Integer portions) {
+    public RecipeDetailDto toDetailDto(Recipe r, Integer portions, ImageDto imageDto) {
         int basePortions = r.getInitialPortions();
         int displayed = portions != null ? portions : basePortions;
         BigDecimal ratio = new BigDecimal(displayed).divide(new BigDecimal(basePortions), 6, RoundingMode.HALF_UP);
@@ -87,7 +85,8 @@ public class RecipeMapper {
                 ingredients,
                 steps,
                 tags,
-                utensils
+                utensils,
+                imageDto
         );
     }
 }

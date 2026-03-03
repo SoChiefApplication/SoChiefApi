@@ -2,6 +2,11 @@ spring:
   application:
     name: sochief-api
 
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}

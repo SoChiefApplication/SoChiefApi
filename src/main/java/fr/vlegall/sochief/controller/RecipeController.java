@@ -4,15 +4,21 @@ import fr.vlegall.sochief.contracts.request.RecipeUpsertRequestDto;
 import fr.vlegall.sochief.contracts.response.RecipeDetailDto;
 import fr.vlegall.sochief.contracts.response.RecipeListItemDto;
 import fr.vlegall.sochief.service.recipe.IRecipeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Validated
@@ -59,17 +65,36 @@ public class RecipeController {
         return ResponseEntity.ok(dto);
     }
 
-    /**
-     * Création.
-     * Retourne 201 + Location: /api/recipes/{id}
-     */
-    @PostMapping
+    @Operation(summary = "Create a recipe")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "ApiKeyAuth")
     public ResponseEntity<RecipeDetailDto> create(
-            @Valid @RequestBody RecipeUpsertRequestDto body,
+
+            @Parameter(
+                    name = "body",
+                    description = "Recipe payload (JSON)",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = RecipeUpsertRequestDto.class)
+                    )
+            )
+            @RequestPart("body") @Valid RecipeUpsertRequestDto body,
+
+            @Parameter(
+                    name = "image",
+                    description = "Recipe image",
+                    required = false,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                            schema = @Schema(type = "string", format = "binary")
+                    )
+            )
+            @RequestPart(value = "image", required = false) MultipartFile image,
+
             UriComponentsBuilder uriBuilder
     ) {
-        RecipeDetailDto created = recipeService.create(body);
+        RecipeDetailDto created = recipeService.create(body, image);
         return ResponseEntity
                 .created(uriBuilder.path("/api/recipes/{id}").buildAndExpand(created.getId()).toUri())
                 .body(created);
@@ -82,9 +107,29 @@ public class RecipeController {
     @SecurityRequirement(name = "ApiKeyAuth")
     public ResponseEntity<RecipeDetailDto> update(
             @PathVariable Long id,
-            @Valid @RequestBody RecipeUpsertRequestDto body
+            @Parameter(
+                    name = "body",
+                    description = "Recipe payload (JSON)",
+                    required = true,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = RecipeUpsertRequestDto.class)
+                    )
+            )
+            @RequestPart("body") @Valid RecipeUpsertRequestDto body,
+
+            @Parameter(
+                    name = "image",
+                    description = "Recipe image",
+                    required = false,
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                            schema = @Schema(type = "string", format = "binary")
+                    )
+            )
+            @RequestPart(value = "image", required = false) MultipartFile image
     ) {
-        RecipeDetailDto updated = recipeService.update(id, body);
+        RecipeDetailDto updated = recipeService.update(id, body, image);
         return ResponseEntity.ok(updated);
     }
 
